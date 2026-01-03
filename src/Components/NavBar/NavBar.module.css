@@ -1,0 +1,116 @@
+.navbar{
+    display: flex;
+    height: 5rem;
+    background-color: white;
+    border: 1px solid #E5E7EB;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+.logo {
+  text-decoration: none;
+  padding-left: 1%;
+}
+
+.logo img{
+    display: block;
+    height: 50px;
+    border-radius: 100px;
+}
+
+
+.navlist {
+  display: flex;
+  gap: 30px;
+  list-style: none;
+  padding-right: 2%;
+  align-items: center;
+}
+
+.navitem a{
+    color: black;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: larger;
+    
+}
+
+.navitem:not(.regbut) a {
+  position: relative;
+}
+
+.navitem:not(.regbut) a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0%;
+  height: 2px;
+  background-color: #0f4bf1;
+  transition: width 0.25s ease;
+}
+
+.regbut {
+    background-color: #F59E0B;
+    border: 2px solid #F59E0B;
+    text-align: center;
+    
+    border-radius: 6px;
+    height: 35px;
+    width: 100px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+.regbut .navlink{
+    color: white;
+}
+
+.regbut:has(.navlink[aria-current="page"]) {
+  background-color: white;
+}
+
+.regbut:has(.navlink[aria-current="page"]) .navlink {
+  color: #F59E0B;
+
+}
+
+
+.navlink[aria-current="page"] {
+  color: #0f4bf1;
+}
+
+
+.navitem a,
+.regbut {
+  transition: 
+    color 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+    
+}
+
+
+.navitem:not(.regbut) a:hover::after,
+.navitem:not(.regbut) a[aria-current="page"]::after {
+  width: 100%;
+}
+
+
+.regbut {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.regbut:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.regbut:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
