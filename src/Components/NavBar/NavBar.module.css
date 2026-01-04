@@ -5,12 +5,14 @@
     border: 1px solid #E5E7EB;
     align-items: center;
     justify-content: space-between;
+    position: relative;
+    z-index: 1000;
 
 }
 
 .logo {
   text-decoration: none;
-  padding-left: 1%;
+  padding-left: 10px;
 }
 
 .logo img{
@@ -113,4 +115,74 @@
   transform: translateY(0);
   box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
+
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding-right: 20px;
+}
+
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background-color: #1E3A8A;
+  border-radius: 2px;
+}
+
+
+@media (max-width: 768px) {
+  .secOne {
+    padding-top: 5rem;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .navlist {
+    position: absolute;
+    top: 5rem;
+    left: 0;
+    width: 100%;
+
+    background-color: white;
+    flex-direction: column;
+    gap: 20px;
+
+    padding: 20px 0;
+
+    transform: translateY(-10px);
+    opacity: 0;
+    pointer-events: none;
+
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  .navlist.open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .navitem {
+    text-align: center;
+  }
+
+  .regbut {
+    width: 80%;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo img {
+    height: 35px;
+  }
+}
+
 
