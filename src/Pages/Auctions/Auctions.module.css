@@ -18,7 +18,6 @@
 
 @media (max-width: 425px) {
 
-
   .header h1 {
     font-size: 30px;
   }
@@ -28,31 +27,25 @@
   }
 }
 
-
-
 .filterBar {
   display: flex;
   justify-content: space-between;
   padding: 20px 30px;
   background-color: #F3F4F6;
 }
-@media (max-width: 425px) {
-  .filterBar {
-    flex-direction: column;
-    gap: 12px;
-  }
-}
 
 /* ============ */
 
 .searchInput {
-  border-radius: 8px;
+  width: 100%;
+  max-width: 400px;
   height: 40px;
   padding: 0 20px;
+  border-radius: 8px;
   border: 2px solid #E5E7EB;
   font-size: 14px;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  height: 40px;
+  
 }
 
 .searchInput:focus {
@@ -62,14 +55,13 @@
 
 /* ============ */
 .categorySelect {
-  padding: 10px 20px;
+  height: 40px;
+  padding: 0 20px;
   border-radius: 8px;
   border: 2px solid #E5E7EB;
   cursor: pointer;
   font-size: 14px;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  height: 40px;
-  
 }
 .categorySelect:hover {
   border-color: #1E3A8A;
@@ -80,6 +72,21 @@
   box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
 }
 
+@media (max-width: 425px) {
+  .filterBar {
+    flex-direction: column;
+    gap: 10px;
+    padding: 15px;
+  }
+
+  .searchInput,
+  .categorySelect {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+}
 .noFound{
     display: flex;
     justify-content: center;

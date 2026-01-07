@@ -1,0 +1,387 @@
+.header {
+  background-color: #ffffff;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header h1 {
+  font-size: 40px;
+  font-weight: 700;
+  color: #1E3A8A;
+  text-align: center;
+  margin: 0;
+  margin-bottom: 20px;
+}
+
+.body {
+  padding: 40px;
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  gap: 40px;
+
+  max-width: 1200px;
+  margin: 0 auto;
+
+}
+
+
+
+.leftSec {
+  background: #ffffff;
+  border-radius: 16px;
+}
+
+
+.imageContainer {
+  width: 100%;
+  height: 420px;
+  border-radius: 10px;
+  border: 2px solid #E5E7EB;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+
+.image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.h2 {
+  font-size: 35px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.Theader {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.text {
+  font-size: 20px;
+  color: #6B7280;
+  max-width: 100%;
+  margin: 0;
+}
+
+
+/* ==================== */
+.rightSec {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.bidCard {
+  border-radius: 10px;
+  padding: 24px;
+  border: 2px solid #E5E7EB;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.currentBid {
+  font-size: 32px;
+  font-weight: 700;
+  color: #F59E0B;
+  margin: 0;
+}
+
+.timer {
+  font-size: 25px;
+  margin: 0;
+  color: #6B7280;
+}
+
+.bidInput {
+  padding: 10px 12px;
+  font-size: 18px;
+  border-radius: 6px;
+  border: 1px solid #D1D5DB;
+}
+
+.bidIncrements {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.incrementBtn {
+  padding: 10px;
+  border-radius: 6px;
+  border: 2px solid #1E3A8A;
+  background-color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 15px;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+
+.incrementBtn:hover {
+  background-color: #1E3A8A;
+  color: white;
+  transform: translateY(-1px);
+}
+
+.incrementBtn:active {
+  transform: scale(0.96);
+}
+
+
+.clearBtn {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 6px;
+  border: 2px solid #D1D5DB;
+  background-color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.clearBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.clearBtn:hover{
+    color: white;
+    background-color: red;
+}
+
+.placeBidBtn {
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 6px;
+  border: none;
+  background-color: #1E3A8A;
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease,transform 0.1s ease;
+}
+
+.placeBidBtn:hover {
+  background-color: #1e40af;
+}
+.placeBidBtn:active {
+  transform: scale(0.97);
+}
+
+
+/* ================ */
+
+.historyCard {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 24px;
+  border: 1px solid #E5E7EB;
+}
+
+
+.historyTitle {
+  margin-bottom: 16px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.historyTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.historyTable th {
+  text-align: left;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #E5E7EB;
+  font-weight: 700;
+}
+
+.historyTable td {
+  padding: 10px 0;
+  border-bottom: 1px solid #E5E7EB;
+  color: #374151;
+}
+
+.historyTable tr:first-child td {
+  font-weight: 700;
+  color: #F59E0B;
+}
+
+
+
+/* ================ */
+.modalOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal {
+    background: #fff;
+    padding: 24px;
+    border-radius: 8px;
+    width: 400px;
+    text-align: center;
+}
+
+.modalSubText {
+    color: #666;
+    font-size: 20px;
+}
+.pPlacing{
+  font-size: 20px;
+}
+
+.modalActions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+}
+
+.cancelBtn {
+    background: #e5e7eb;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.confirmBtn {
+    background: #1e3a8a;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+
+/* ============= */
+
+@media (max-width: 1024px) {
+  .body {
+    grid-template-columns: 1fr;
+    padding: 24px;
+  }
+
+  .leftSec,
+  .rightSec {
+    width: 100%;
+  }
+
+  .imageContainer {
+    height: 360px;
+  }
+  
+}
+
+@media (max-width: 768px) {
+  .header {
+    height: auto;
+    padding: 20px 10px;
+  }
+
+  .header h1 {
+    font-size: 28px;
+    margin-bottom: 0;
+  }
+
+  .body {
+    padding: 16px;
+    gap: 24px;
+  }
+
+  .imageContainer {
+    height: 280px;
+  }
+
+  .h2 {
+    font-size: 26px;
+  }
+
+  .Theader {
+    font-size: 18px;
+  }
+
+  .text {
+    font-size: 16px;
+  }
+
+  .currentBid {
+    font-size: 26px;
+  }
+
+  .timer {
+    font-size: 18px;
+  }
+
+  .bidInput {
+    font-size: 16px;
+  }
+
+  .bidIncrements {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .incrementBtn {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .placeBidBtn,
+  .clearBtn {
+    font-size: 15px;
+    padding: 10px;
+  }
+
+  .historyTitle {
+    font-size: 18px;
+  }
+
+  .historyTable th,
+  .historyTable td {
+    font-size: 14px;
+  }
+
+
+}
+
+@media (max-width: 480px) {
+  .bidIncrements {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .modal {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .modalActions {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .cancelBtn,
+  .confirmBtn {
+    width: 100%;
+  }
+  .modal {
+      width: 250px;
+  }
+}
