@@ -12,6 +12,7 @@ import Register from './Pages/Register/Register'
 import AuctionDetails from './Pages/Auction Detail/AuctionDetails'
 import ForgotPassword from './Pages/Forget Password/ForgotPassword'
 import ResetPassword from './Pages/Forget Password/ResetPassword'
+import NotFound from './Pages/Not Found/NotFound'
 
 
 function App() {
@@ -28,7 +29,7 @@ function App() {
         <Route path='/register' element={<Register/>} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
-
+        <Route path="*" element={<NotFound />} />
 
 
       </Routes>
