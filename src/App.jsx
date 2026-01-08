@@ -10,21 +10,26 @@ import About from './Pages/About/About'
 import Login from './Pages/Login/Login'
 import Register from './Pages/Register/Register'
 import AuctionDetails from './Pages/Auction Detail/AuctionDetails'
+import ForgotPassword from './Pages/Forget Password/ForgotPassword'
+import ResetPassword from './Pages/Forget Password/ResetPassword'
 
 
 function App() {
-  // const [count, setCount] = useState(0)
 
   return (
     <MainLayout>
       
       <Routes>
         <Route path='/' element={<Home/>} />
-        <Route path='/Auctions' element={<Auctions/>} />
-        <Route path='Auctions/:id' element={<AuctionDetails/>}/>
-        <Route path='/About' element={<About/>} />
-        <Route path='/Login' element={<Login/>} />
-        <Route path='/Register' element={<Register/>} />
+        <Route path='/auctions' element={<Auctions/>} />
+        <Route path='/auctions/:id' element={<AuctionDetails/>}/>
+        <Route path='/about' element={<About/>} />
+        <Route path='/login' element={<Login/>} />
+        <Route path='/register' element={<Register/>} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+
+
 
       </Routes>
 
