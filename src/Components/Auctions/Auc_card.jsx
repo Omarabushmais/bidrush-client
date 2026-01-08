@@ -10,7 +10,7 @@ function Auc_card({ auction }) {
       <h3 className={style.title}>{auction.title}</h3>
       <p className={style.bid}>Current Bid: ${auction.currentBid}</p>
       <p className={style.ends}>Ends in: {auction.endsIn}</p>
-      <Link to={`/Auctions/${auction.id}`} className={style.button}>View Auction</Link>
+      <Link to={`/auctions/${auction.id}`} className={style.button}>View Auction</Link>
 
     </div>
   )

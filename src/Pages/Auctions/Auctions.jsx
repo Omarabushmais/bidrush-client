@@ -9,7 +9,31 @@ function Auctions() {
   const [category, setCategory] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const itemsPerPage = 8;
+  const [itemsPerPage, setItemsPerPage] = useState(8);
+
+  useEffect(() => {
+  const calculateItemsPerPage = () => {
+    const width = window.innerWidth;
+
+    if (width < 1024) {
+      setItemsPerPage(6);
+    } else if (width < 1400) {
+      setItemsPerPage(6);
+    } else if (width < 1750) {
+      setItemsPerPage(8);
+    } else {
+      setItemsPerPage(10);
+    }
+  };
+
+  calculateItemsPerPage();
+  window.addEventListener("resize", calculateItemsPerPage);
+
+  return () => window.removeEventListener("resize", calculateItemsPerPage);
+}, []);
+
+
+
 
   const filteredAuctions = mockAuctions.filter((auction)=> {
     const matchSearch = auction.title.toLowerCase().includes(search.toLowerCase());
@@ -21,7 +45,8 @@ function Auctions() {
 
   useEffect(()=>{
     setCurrentPage(1);
-  }, [search, category]);
+  }, [search, category, itemsPerPage]);
+
 
   const totalPages = Math.ceil(filteredAuctions.length / itemsPerPage);
   const startIndex = (currentPage -1) * itemsPerPage;
