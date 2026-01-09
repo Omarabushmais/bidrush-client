@@ -1,0 +1,25 @@
+.card {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 14px 16px;
+  border: 1px solid #e5e7eb;
+  border-left: 15px solid #f59e0b;
+  width: 220px;
+}
+
+.item {
+  font-size: 20px;
+  font-weight: 600;
+  color: #6b7280;
+  margin-bottom: 6px;
+}
+
+.bid {
+  font-size: 15px;
+  color: #6b7280;
+}
+
+.bid span {
+  color: #f59e0b;
+  font-weight: 700;
+}

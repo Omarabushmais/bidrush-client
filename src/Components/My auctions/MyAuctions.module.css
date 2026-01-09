@@ -1,0 +1,129 @@
+.wrapper {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #E5E7EB;
+  margin: 30px;
+  max-height: 260px;
+  overflow-y: auto;
+  overflow-x: auto;
+  
+}
+
+.wrapper {
+  margin: 30px;
+  max-height: 260px;
+  overflow-y: auto;
+  overflow-x: auto;
+  scrollbar-gutter: stable;
+}
+
+
+.table {
+  width: 100%;
+  min-width: 900px;
+  border-collapse: collapse;
+  table-layout: fixed;
+
+}
+
+
+thead th {
+
+  position: sticky;
+  top: 0;
+  background: #f6f7f9;
+  z-index: 2;
+
+  text-align: left;
+  font-weight: 600;
+  padding: 12px;
+  font-size: 14px;
+  color: #555;
+}
+
+tbody td {
+  padding: 14px 12px;
+  border-top: 1px solid #e6e8ec;
+  font-size: 14px;
+}
+
+th,
+td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.item {
+  font-weight: 600;
+  color: #111;
+}
+
+.active {
+  color: #1a73e8;
+  font-weight: 600;
+}
+
+.completed {
+  color: #8a8f98;
+  font-weight: 500;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+}
+
+button {
+  background: none;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.edit {
+  color: #1a73e8;
+}
+
+.delete {
+  color: #e53935;
+}
+
+.view {
+  color: #1a73e8;
+}
+
+button:hover {
+  text-decoration: underline;
+}
+
+/* ============= */
+
+@media (max-width: 1024px) {
+  .wrapper {
+    margin: 20px;
+  }
+
+  .table {
+    min-width: 800px;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .wrapper {
+    margin: 16px;
+    border-radius: 10px;
+  }
+
+  .table {
+    min-width: 700px;
+  }
+
+  thead th,
+  tbody td {
+    padding: 10px;
+    font-size: 13px;
+  }
+}

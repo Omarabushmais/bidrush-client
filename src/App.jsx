@@ -13,6 +13,9 @@ import AuctionDetails from './Pages/Auction Detail/AuctionDetails'
 import ForgotPassword from './Pages/Forget Password/ForgotPassword'
 import ResetPassword from './Pages/Forget Password/ResetPassword'
 import NotFound from './Pages/Not Found/NotFound'
+import UserDashboard from './Pages/UserDashboard/UserDashboard'
+import MyAuctions from './Components/My auctions/MyAuctions'
+import ActiveBids from './Components/Active Bids/ActiveBids'
 
 
 function App() {
@@ -29,6 +32,9 @@ function App() {
         <Route path='/register' element={<Register/>} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/user-dashboard" element={<UserDashboard />} />
+        <Route path="/my-auctions" element={<MyAuctions />} />
+        <Route path="/active-bids" element={<ActiveBids />} />
         <Route path="*" element={<NotFound />} />
 
 
