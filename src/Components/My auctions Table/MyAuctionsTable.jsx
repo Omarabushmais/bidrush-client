@@ -1,7 +1,7 @@
 import React from 'react'
-import styles from "./MyAuctions.module.css";
+import styles from "./MyAuctionsTable.module.css";
 
-function MyAuctions({ auctions }) {
+function MyAuctionsTable({ auctions }) {
   return (
     <div className={styles.wrapper}>
       <table className={styles.table}>
@@ -46,4 +46,4 @@ function MyAuctions({ auctions }) {
   )
 }
 
-export default MyAuctions
+export default MyAuctionsTable
