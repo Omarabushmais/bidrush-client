@@ -8,7 +8,7 @@ import usersIcon from "../../assets/Users.png";
 
 import styles from "./UserDashboard.module.css"
 
-import MyAuctions from '../../Components/My auctions/MyAuctions.jsx';
+import MyAuctionsTable from '../../Components/My auctions Table/MyAuctionsTable.jsx';
 import ActiveBids from '../../Components/Active Bids/ActiveBids.jsx';
 import AuctionWonCard from '../../Components/Auction Won Card/AuctionWonCard.jsx';
 import StatCard from '../../Components/Stats Card/StatCard.jsx';
@@ -30,7 +30,7 @@ function UserDashboard() {
                 <p>Welcome back, User123</p>
             </div>
 
-            <Link to={"/my-auctions"} className={styles.viewBtn}>View Auction</Link>
+            <Link to={"/my-auctions"} className={styles.viewBtn}>View My Auctions</Link>
 
         </div>
         <div className={styles.statsWrapper}>
@@ -43,7 +43,7 @@ function UserDashboard() {
 
         <h2 className={styles.sectionTitle}>My Active Bids</h2>
         <div className={styles.myAuctionsActive}>
-            <MyAuctions auctions={activeAuctions} />
+            <MyAuctionsTable auctions={activeAuctions} />
         </div>
         
         <h2 className={styles.sectionTitle}>My Auctions</h2>

@@ -14,8 +14,9 @@ import ForgotPassword from './Pages/Forget Password/ForgotPassword'
 import ResetPassword from './Pages/Forget Password/ResetPassword'
 import NotFound from './Pages/Not Found/NotFound'
 import UserDashboard from './Pages/UserDashboard/UserDashboard'
-import MyAuctions from './Components/My auctions/MyAuctions'
-import ActiveBids from './Components/Active Bids/ActiveBids'
+import MyAuctions from './Pages/My Auctions/MyAuctions'
+import BidHistory from './Pages/Bid History/BidHistory'
+import CreateAuction from './Pages/Create Auction/CreateAuction'
 
 
 function App() {
@@ -34,7 +35,8 @@ function App() {
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/user-dashboard" element={<UserDashboard />} />
         <Route path="/my-auctions" element={<MyAuctions />} />
-        <Route path="/active-bids" element={<ActiveBids />} />
+        <Route path="/bid-history" element={<BidHistory />} />
+        <Route path="/create-auction" element={<CreateAuction />} />
         <Route path="*" element={<NotFound />} />
 
 
