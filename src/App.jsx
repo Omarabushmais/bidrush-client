@@ -1,6 +1,3 @@
-// import { useState } from 'react'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
 import './App.css'
 import { Route, Routes } from 'react-router-dom'
 import MainLayout from './Layout/MainLayout'
@@ -18,6 +15,7 @@ import MyAuctions from './Pages/My Auctions/MyAuctions'
 import BidHistory from './Pages/Bid History/BidHistory'
 import CreateAuction from './Pages/Create Edit Auction/CreateAuction'
 import EditAuction from './Pages/Create Edit Auction/EditAuction'
+import Profile from './Pages/Profile/Profile'
 
 
 function App() {
@@ -39,6 +37,7 @@ function App() {
         <Route path="/bid-history" element={<BidHistory />} />
         <Route path="/create-auction" element={<CreateAuction />} />
         <Route path="/edit-auction/:id" element={<EditAuction />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="*" element={<NotFound />} />
 
 

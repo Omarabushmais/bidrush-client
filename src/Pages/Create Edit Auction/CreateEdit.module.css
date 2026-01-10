@@ -106,7 +106,7 @@
 
 .submit {
     height: 45px;
-    background-color: #1E3A8A;
+    background-color: #F59E0B;
     color: white;
     font-size: 16px;
     font-weight: 600;
@@ -123,7 +123,6 @@
 
 
 .submit:hover {
-    background-color: #1E40AF;
     transform: translateY(-2px);
 }
 
