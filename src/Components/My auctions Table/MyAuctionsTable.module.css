@@ -86,7 +86,18 @@ button {
 button:hover {
   text-decoration: underline;
 }
+.linkButton {
+  background: none;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: none;
+}
 
+.linkButton:hover {
+  text-decoration: underline;
+}
 /* ============= */
 
 @media (max-width: 1024px) {

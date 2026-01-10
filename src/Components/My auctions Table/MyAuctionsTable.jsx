@@ -1,5 +1,6 @@
 import React from 'react'
 import styles from "./MyAuctionsTable.module.css";
+import { Link } from 'react-router-dom';
 
 function MyAuctionsTable({ auctions }) {
   return (
@@ -31,7 +32,7 @@ function MyAuctionsTable({ auctions }) {
               <td>
                 {auction.status === "Active" ? (
                   <div className={styles.actions}>
-                    <button className={styles.edit}>Edit</button>
+                    <Link to={`/edit-auction/${auction.id}`} className={`${styles.linkButton} ${styles.edit}`}>Edit</Link>
                     <button className={styles.delete}>Delete</button>
                   </div>
                 ) : (
