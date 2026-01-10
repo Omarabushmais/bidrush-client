@@ -16,6 +16,9 @@ import BidHistory from './Pages/Bid History/BidHistory'
 import CreateAuction from './Pages/Create Edit Auction/CreateAuction'
 import EditAuction from './Pages/Create Edit Auction/EditAuction'
 import Profile from './Pages/Profile/Profile'
+import AdminDashboard from './Pages/Admin/AdminDashboard'
+import ManageUsers from './Pages/Admin/ManageUsers'
+import ManageAuctions from './Pages/Admin/ManageAuctions'
 
 
 function App() {
@@ -38,6 +41,9 @@ function App() {
         <Route path="/create-auction" element={<CreateAuction />} />
         <Route path="/edit-auction/:id" element={<EditAuction />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/admin-dashboard" element={<AdminDashboard />} />
+        <Route path="/manage-users" element={<ManageUsers />} />
+        <Route path="/manage-auctions" element={<ManageAuctions />} />
         <Route path="*" element={<NotFound />} />
 
 

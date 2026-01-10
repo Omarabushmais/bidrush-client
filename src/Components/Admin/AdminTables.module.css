@@ -58,11 +58,21 @@ td {
   color: #8a8f98;
   font-weight: 500;
 }
+th.actionCol,
+td.actionCol {
+  width: 180px;
+  min-width: 180px;
+  overflow: visible;
+  text-overflow: clip;
+  white-space: nowrap;
+}
 
 .actions {
   display: flex;
   gap: 12px;
+  flex-wrap: nowrap;
 }
+
 
 button {
   background: none;
