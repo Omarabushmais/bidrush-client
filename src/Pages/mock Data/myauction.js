@@ -11,6 +11,7 @@ const myAuctionsMock = [
     currentBid: 850,
     status: "Active",
     endsIn: "03h 15m",
+    sellerName: "TechWorld",
   },
   {
     id: 2,
@@ -24,6 +25,7 @@ const myAuctionsMock = [
     currentBid: 150,
     status: "Completed",
     endsIn: "Ended",
+    sellerName: "TechWorld",
   },
   {
     id: 3,
@@ -37,6 +39,7 @@ const myAuctionsMock = [
     currentBid: 920,
     status: "Active",
     endsIn: "05h 40m",
+    sellerName: "TechWorld",
   },
   {
     id: 4,
@@ -50,6 +53,7 @@ const myAuctionsMock = [
     currentBid: 120,
     status: "Active",
     endsIn: "01h 05m",
+    sellerName: "TechWorld",
   },
   {
     id: 5,
@@ -63,6 +67,7 @@ const myAuctionsMock = [
     currentBid: 400,
     status: "Completed",
     endsIn: "Ended",
+    sellerName: "TechWorld",
   },
   {
     id: 6,
@@ -76,6 +81,7 @@ const myAuctionsMock = [
     currentBid: 210,
     status: "Active",
     endsIn: "06h 30m",
+    sellerName: "TechWorld",
   },
   {
     id: 7,
@@ -89,6 +95,7 @@ const myAuctionsMock = [
     currentBid: 95,
     status: "Completed",
     endsIn: "Ended",
+    sellerName: "TechWorld",
   },
   {
     id: 8,
@@ -102,6 +109,7 @@ const myAuctionsMock = [
     currentBid: 75,
     status: "Active",
     endsIn: "02h 50m",
+    sellerName: "TechWorld",
   },
   {
     id: 9,
@@ -115,6 +123,7 @@ const myAuctionsMock = [
     currentBid: 680,
     status: "Active",
     endsIn: "09h 10m",
+    sellerName: "TechWorld",
   },
   {
     id: 10,
@@ -127,6 +136,7 @@ const myAuctionsMock = [
     currentBid: 180,
     status: "Completed",
     endsIn: "Ended",
+    sellerName: "TechWorld",
   },
 ];
 
