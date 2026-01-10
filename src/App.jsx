@@ -16,7 +16,8 @@ import NotFound from './Pages/Not Found/NotFound'
 import UserDashboard from './Pages/UserDashboard/UserDashboard'
 import MyAuctions from './Pages/My Auctions/MyAuctions'
 import BidHistory from './Pages/Bid History/BidHistory'
-import CreateAuction from './Pages/Create Auction/CreateAuction'
+import CreateAuction from './Pages/Create Edit Auction/CreateAuction'
+import EditAuction from './Pages/Create Edit Auction/EditAuction'
 
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
         <Route path="/my-auctions" element={<MyAuctions />} />
         <Route path="/bid-history" element={<BidHistory />} />
         <Route path="/create-auction" element={<CreateAuction />} />
+        <Route path="/edit-auction/:id" element={<EditAuction />} />
         <Route path="*" element={<NotFound />} />
 
 
