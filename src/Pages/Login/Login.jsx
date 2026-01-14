@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./Login.module.css";
+import api from "../../Api/axios"
 
 import logo from "../../assets/Logo.png";
 import emailIcon from "../../assets/emailIcon.png";
@@ -15,12 +16,28 @@ const Login = () => {
   });
 
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] =useState("");
 
-  const handleChange = (e) => setForm((p) => ({ ...p, [e.target.name]: e.target.value }));
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    setForm((p) => ({ ...p, [e.target.name]: e.target.value }));
+    setError("");
+  }
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(form);
+    
+    try{
+      const response = await api.post("/auth/login", form);
+      localStorage.setItem("token", response.data.token);
+      navigate("/");
+
+    }catch(err){
+      console.error(err);
+      setError(err.response?.data?.message || "Login Failed");
+    }
+
   };
 
   return (
@@ -36,7 +53,6 @@ const Login = () => {
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.formGroup}>
             <label className={styles.label}>Email Address</label>
-
             <div className={styles.inputWrapper}>
               <img src={emailIcon} alt="Email icon" className={styles.inputIcon}/>
               <input type="email" name="email" value={form.email} onChange={handleChange} placeholder="Enter your email" className={styles.input} required/>
@@ -45,7 +61,6 @@ const Login = () => {
 
           <div className={styles.formGroup}>
             <label className={styles.label}>Password</label>
-
             <div className={styles.inputWrapper}>
               <img src={passIcon} alt="Password icon" className={styles.inputIcon}/>
               <input type={showPassword ? "text" : "password"} name="password" value={form.password} onChange={handleChange} placeholder="Enter your password" className={styles.input} required/>
@@ -55,7 +70,7 @@ const Login = () => {
           </div>
 
           <div className={styles.forgotPassword}><Link to="/forgot-password">Forgot password?</Link></div>
-
+          {error && <p className={styles.errorText}>{error}</p>}
           <button type="submit" className={styles.submitBtn}>Login</button>
         </form>
 

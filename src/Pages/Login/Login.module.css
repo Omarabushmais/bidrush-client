@@ -224,3 +224,9 @@
 .authFooter a:hover {
   color: #182f6b;
 }
+
+.errorText {
+  margin-top: 6px;
+  font-size: 13px;
+  color: #dc2626;
+}
