@@ -67,7 +67,9 @@
     justify-content: center;
     cursor: pointer;
     font-weight: 600;
+    font-size: larger;
     
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 .regbut .navlink{
     color: white;
@@ -103,10 +105,6 @@
   width: 100%;
 }
 
-
-.regbut {
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
 
 .regbut:hover {
   transform: translateY(-1px);
