@@ -31,7 +31,14 @@ const Login = () => {
     try{
       const response = await api.post("/auth/login", form);
       localStorage.setItem("token", response.data.token);
-      navigate("/");
+      localStorage.setItem("role", response.data.role);
+      localStorage.setItem("username", response.data.username);
+
+      if (response.data.role === "admin") {
+        navigate("/admin-dashboard");
+      } else {
+        navigate("/user-dashboard");
+      }
 
     }catch(err){
       console.error(err);

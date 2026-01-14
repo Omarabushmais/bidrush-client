@@ -19,6 +19,7 @@ import Profile from './Pages/Profile/Profile'
 import AdminDashboard from './Pages/Admin/AdminDashboard'
 import ManageUsers from './Pages/Admin/ManageUsers'
 import ManageAuctions from './Pages/Admin/ManageAuctions'
+import ProtectedRoute from './Components/ProtectedRoutes'
 
 
 function App() {
@@ -35,17 +36,23 @@ function App() {
         <Route path='/register' element={<Register/>} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/user-dashboard" element={<UserDashboard />} />
-        <Route path="/my-auctions" element={<MyAuctions />} />
-        <Route path="/bid-history" element={<BidHistory />} />
-        <Route path="/create-auction" element={<CreateAuction />} />
-        <Route path="/edit-auction/:id" element={<EditAuction />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/admin-dashboard" element={<AdminDashboard />} />
-        <Route path="/manage-users" element={<ManageUsers />} />
-        <Route path="/manage-auctions" element={<ManageAuctions />} />
-        <Route path="*" element={<NotFound />} />
 
+        <Route element={<ProtectedRoute allowedRoles={["user"]} />}>
+          <Route path="/user-dashboard" element={<UserDashboard />} />
+          <Route path="/my-auctions" element={<MyAuctions />} />
+          <Route path="/bid-history" element={<BidHistory />} />
+          <Route path="/create-auction" element={<CreateAuction />} />
+          <Route path="/edit-auction/:id" element={<EditAuction />} />
+          <Route path="/profile" element={<Profile />} />
+        </Route>
+
+        <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
+          <Route path="/admin-dashboard" element={<AdminDashboard />} />
+          <Route path="/manage-users" element={<ManageUsers />} />
+          <Route path="/manage-auctions" element={<ManageAuctions />} />
+        </Route>
+
+        <Route path="*" element={<NotFound />} />
 
       </Routes>
 
