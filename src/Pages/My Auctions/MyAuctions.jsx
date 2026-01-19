@@ -1,22 +1,49 @@
 import React, { useEffect, useState } from 'react'
-import auc from "../mock Data/myauction.js";
 import styles from "./MyAuctions.module.css"
 import MyAuctionsTable from '../../Components/My auctions Table/MyAuctionsTable.jsx';
 import { Link } from 'react-router-dom';
+import { getMyAuctions } from "../../Api/auctions.js";
+
 
 function MyAuctions() {
-    
+
+  const [auctions, setAuctions] = useState([]);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
   const [status, setStatus] = useState("all");
 
-  const filteredAuctions = auc.filter((auction)=> {
-    const matchSearch = auction.item.toLowerCase().includes(search.toLowerCase());
+  const filteredAuctions = auctions.filter((auction)=> {
+    const matchSearch = auction.title.toLowerCase().includes(search.toLowerCase());
     const matchCategory = category === "all" || auction.category === category;
     const matchStatus = status === "all" || auction.status === status;
 
     return matchSearch && matchCategory && matchStatus;
   });
+
+  const categories = [
+    ...new Set(auctions.map(a => a.category))
+    ];
+
+  const statuses = [
+    ...new Set(auctions.map(a => a.status))
+    ];
+
+
+  useEffect(() => {
+    const fetchMyAuctions = async () => {
+      try {
+        const data = await getMyAuctions();
+        setAuctions(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchMyAuctions();
+  }, []);
+
+  const capitalize = (str) =>
+    str ? str.charAt(0).toUpperCase() + str.slice(1) : "";
 
   return (
     <div>
@@ -31,16 +58,23 @@ function MyAuctions() {
         </div>
         <div className={styles.filterBar}>
             <input className={styles.searchInput} type="text" placeholder='Search Auctions...' value={search} onChange={(e)=> setSearch(e.target.value)}/>
-            <div>
-                <select className={styles.categorySelect} value={category} onChange={(e)=> setCategory(e.target.value)}>
-                    <option className='options' value="all">All Categories</option>
-                    <option value="Electronics">Electronics</option>
-                    <option value="Accessories">Accessories</option>
+            <div className={styles.innerfilter}>
+                <select className={styles.categorySelect} value={category} onChange={(e) => setCategory(e.target.value)}>
+                    <option value="all">All Categories</option>
+                    {categories.map((cat) => (
+                        <option key={cat} value={cat}>
+                            {capitalize(cat)}
+                        </option>
+                    ))}
                 </select>
+
                 <select className={styles.categorySelect} value={status} onChange={(e) => setStatus(e.target.value)}>
                     <option value="all">All Status</option>
-                    <option value="Active">Active</option>
-                    <option value="Completed">Completed</option>
+                    {statuses.map(stat => (
+                        <option key={stat} value={stat}>
+                          {capitalize(stat)}
+                        </option>
+                    ))}
                 </select>
             </div>
         </div>

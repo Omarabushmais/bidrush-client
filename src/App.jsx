@@ -23,7 +23,6 @@ import ProtectedRoute from './Components/ProtectedRoutes'
 
 
 function App() {
-
   return (
     <MainLayout>
       

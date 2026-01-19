@@ -1,5 +1,4 @@
-import React from 'react'
-import auc from "../mock Data/myauction.js";
+import React, { useEffect, useState } from 'react'
 import bid from "../mock Data/activebids.js";
 
 import bidsIcon from "../../assets/bids.png";
@@ -14,14 +13,30 @@ import AuctionWonCard from '../../Components/Auction Won Card/AuctionWonCard.jsx
 import StatCard from '../../Components/Stats Card/StatCard.jsx';
 import { Link } from 'react-router-dom';
 
-const activeAuctions = auc.filter(
-    (auction) => auction.status === "Active"
-    );
+import { getMyAuctions } from "../../Api/auctions.js";
+
 const activeBids = bid.filter(
     (bids) => bids.status === "Active"
     );
 
 function UserDashboard() {
+
+    const [realMyAuctions, setRealMyAuctions] = useState([]);
+
+    useEffect(() => {
+    const fetchData = async () => {
+        try {
+            const data = await getMyAuctions();
+            const activeOnly = data.filter(a => a.status === 'active' || a.status === 'Active');
+            setRealMyAuctions(activeOnly);
+        } catch (err) {
+            console.error("Failed to load auctions", err);
+        }
+    };
+    fetchData();
+  }, []);
+
+  
   return (
     <div>
         <div className={styles.header}>
@@ -43,12 +58,12 @@ function UserDashboard() {
 
         <h2 className={styles.sectionTitle}>My Active Bids</h2>
         <div className={styles.myAuctionsActive}>
-            <MyAuctionsTable auctions={activeAuctions} />
+            <ActiveBids bids={activeBids} />
         </div>
         
         <h2 className={styles.sectionTitle}>My Auctions</h2>
         <div className={styles.myAuctionsActive}>
-            <ActiveBids bids={activeBids} />
+            <MyAuctionsTable auctions={realMyAuctions} />
         </div>
 
         <h2 className={styles.sectionTitle}>Auctions Won</h2>
