@@ -1,16 +1,35 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import style from "./Home.module.css"
 import { NavLink  } from 'react-router-dom'
 import homeImage from "../../assets/homeImage.png"
 import Auc_List from '../../Components/Auctions/Auc_List'
-import mockAuctions from "../../Components/Auctions/testdata.js";
 import step1 from "../../assets/register.png";
 import step2 from "../../assets/bids.png";
 import step3 from "../../assets/aucWin.png";
 
+import { getAllAuctions } from "../../Api/auctions.js";
 
 
 function Home() {
+
+  const [featuredAuctions, setFeaturedAuctions] = useState([]);
+  const username = localStorage.getItem("username");
+
+  useEffect(() => {
+    const fetchFeatured = async () => {
+      try {
+        const data = await getAllAuctions();
+        
+        const activeOnly = data.filter(a => a.status === 'active' || a.status === 'Active');
+        
+        setFeaturedAuctions(activeOnly.slice(0, 3));
+      } catch (err) {
+        console.error("Failed to fetch featured auctions", err);
+      }
+    };
+    fetchFeatured();
+  }, []);
+
   return (
     <>
       <section className={style.secOne}>
@@ -21,10 +40,11 @@ function Home() {
             <NavLink className={style.GotoAuc} to="/auctions">
               Browse Auctions
             </NavLink>
-
-            <NavLink className={style.GotoReg} to="/register">
-              Create Account
-            </NavLink>
+            {!username && (
+                <NavLink className={style.GotoReg} to="/register">
+                  Create Account
+                </NavLink>
+            )}
           </div>
           
         </div>
@@ -33,7 +53,7 @@ function Home() {
 
       <section className={style.secTwo}>
         <h2 className={style.h2Tag}>Featured Auctions</h2>
-        <Auc_List auctions={mockAuctions.slice(0, 3)} />
+        <Auc_List auctions={featuredAuctions} />
       </section>
       
 
