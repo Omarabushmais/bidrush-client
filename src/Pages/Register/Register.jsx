@@ -3,8 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import styles from "./Register.module.css";
 import logo from "../../assets/Logo.png";
 import eyeIcon from "../../assets/eyeIcon.png";
-import api from "../../Api/axios"
 
+import { registerUser } from "../../Api/auth";
 const Register = () => {
 
   const navigate = useNavigate();
@@ -74,7 +74,7 @@ const Register = () => {
         password: formData.password
       }
 
-      await api.post("/auth/register", body);
+      await registerUser(body);
       setSuccess("Account created successfully! Redirecting to login...");
 
       setTimeout(() => {
