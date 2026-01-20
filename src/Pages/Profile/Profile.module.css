@@ -1,9 +1,10 @@
 
 .header {
   background-color: #ffffff;
-  height: 100px;
+  height: auto;
   text-align: center;
-  padding: 30px;
+  padding: 0;
+  margin-bottom: 10px;
 }
 
 .header h1 {
@@ -122,4 +123,19 @@
 .input:disabled {
   background-color: #F3F4F6;
   border-color: #E5E7EB;
+}
+
+.loading {
+  text-align: center;
+  font-size: 24px;
+  color: #1E3A8A;
+  margin-top: 50px;
+  font-weight: bold;
+}
+
+.centerActions {
+  display: flex;
+  justify-content: center;
+  margin: 40px;
+
 }

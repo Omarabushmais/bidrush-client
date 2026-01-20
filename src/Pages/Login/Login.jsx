@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./Login.module.css";
-import api from "../../Api/axios"
+import { loginUser } from "../../Api/auth";
 
 import logo from "../../assets/Logo.png";
 import emailIcon from "../../assets/emailIcon.png";
@@ -29,12 +29,14 @@ const Login = () => {
     e.preventDefault();
     
     try{
-      const response = await api.post("/auth/login", form);
-      localStorage.setItem("token", response.data.token);
-      localStorage.setItem("role", response.data.role);
-      localStorage.setItem("username", response.data.username);
 
-      if (response.data.role === "admin") {
+      const data = await loginUser(form);
+
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("role", data.role);
+      localStorage.setItem("username", data.username);
+
+      if (data.role === "admin") {
         navigate("/admin-dashboard");
       } else {
         navigate("/user-dashboard");
