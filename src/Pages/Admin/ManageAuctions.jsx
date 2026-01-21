@@ -1,16 +1,35 @@
-import React, { useState } from 'react'
-import theauctions from "../mock Data/myauction"
+import React, { useEffect, useState } from 'react'
 import styles from "./Manage.module.css"
 import AuctionsTable from '../../Components/Admin/AuctionsTable';
+import { getAllAuctions } from '../../Api/auctions';
 
 function ManageAuctions() {
     
+  const [allAuctions, setAllAuctions] = useState([]);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
   const [status, setStatus] = useState("all");
 
-  const filteredAuctions = theauctions.filter((auction)=> {
-    const matchSearch = auction.item.toLowerCase().includes(search.toLowerCase());
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getAllAuctions();
+        setAllAuctions(data);
+      } catch (err) {
+        console.error("Error fetching auctions:", err);
+      }
+    };
+    fetchData();
+  }, []);
+
+
+  const uniqueCategories = ["all", ...new Set(allAuctions.map(a => a.category).filter(Boolean))];
+  const uniqueStatuses = ["all", ...new Set(allAuctions.map(a => a.status).filter(Boolean))];
+
+
+  const filteredAuctions = allAuctions.filter((auction)=> {
+    const matchSearch = auction.title.toLowerCase().includes(search.toLowerCase());
     const matchCategory = category === "all" || auction.category === category;
     const matchStatus = status === "all" || auction.status === status;
 
@@ -28,20 +47,21 @@ function ManageAuctions() {
             <input className={styles.searchInput} type="text" placeholder='Search Auctions...' value={search} onChange={(e)=> setSearch(e.target.value)}/>
             <div>
                 <select className={styles.categorySelect} value={category} onChange={(e)=> setCategory(e.target.value)}>
-                    <option className='options' value="all">All Categories</option>
-                    <option value="Electronics">Electronics</option>
-                    <option value="Accessories">Accessories</option>
+                    {uniqueCategories.map((cat, idx) => (
+                        <option key={idx} value={cat}>{cat === "all" ? "All Categories" : cat}</option>
+                    ))}
                 </select>
+                
                 <select className={styles.categorySelect} value={status} onChange={(e) => setStatus(e.target.value)}>
-                    <option value="all">All Status</option>
-                    <option value="Active">Active</option>
-                    <option value="Completed">Completed</option>
+                    {uniqueStatuses.map((stat, idx) => (
+                        <option key={idx} value={stat}>{stat === "all" ? "All Status" : stat}</option>
+                    ))}
                 </select>
             </div>
         </div>
         {filteredAuctions.length > 0 ? (
             <div className={styles.Active}>
-                <AuctionsTable auctions={filteredAuctions} />
+                <AuctionsTable auctions={filteredAuctions}/>
             </div>
         ) : (
             <div className={styles.noFound}>

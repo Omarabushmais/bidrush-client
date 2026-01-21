@@ -220,3 +220,10 @@ button:hover {
 .confirmBtn:hover {
   background-color: #c9302c;
 }
+
+.noAuc{
+   padding: 40px;
+   text-align: center;
+   color: #666;
+   font-size: 1.1rem;
+}

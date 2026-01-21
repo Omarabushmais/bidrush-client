@@ -14,6 +14,8 @@ function Auctions() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(8);
 
+  const userId = localStorage.getItem("userId");
+
   useEffect(() => {
   const calculateItemsPerPage = () => {
     const width = window.innerWidth;
@@ -62,7 +64,10 @@ useEffect(() => {
   const filteredAuctions = auctions.filter((auction)=> {
     const matchSearch = auction.title.toLowerCase().includes(search.toLowerCase());
     const matchCategory = category === "all" || auction.category === category;
-    return matchSearch && matchCategory;
+
+    const isNotMyAuction =!userId || Number(auction.seller_id) !== Number(userId);
+
+    return matchSearch && matchCategory && isNotMyAuction;
   });
 
   const totalPages = Math.ceil(filteredAuctions.length / itemsPerPage);

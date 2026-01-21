@@ -80,7 +80,7 @@ function MyAuctions() {
         </div>
         {filteredAuctions.length > 0 ? (
             <div className={styles.myAuctionsActive}>
-                <MyAuctionsTable auctions={filteredAuctions} />
+                <MyAuctionsTable auctions={filteredAuctions} onDeleted={(id) => setAuctions(prev => prev.filter(a => a.id !== id))}/>
             </div>
         ) : (
             <div className={styles.noFound}>

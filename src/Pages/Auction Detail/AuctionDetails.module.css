@@ -212,7 +212,7 @@
 }
 
 .historyTable td {
-  padding: 10px 0;
+  padding: 12px;
   border-bottom: 1px solid #E5E7EB;
   color: #374151;
 }
@@ -540,3 +540,4 @@
     border-color: #007bff;
     transform: scale(1.1);
 }
+
