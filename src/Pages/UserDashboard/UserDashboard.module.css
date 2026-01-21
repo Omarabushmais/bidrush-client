@@ -142,3 +142,15 @@
     grid-template-columns: 1fr;
   }
 }
+
+
+.emptyText {
+  text-align: center;
+  padding: 24px;
+  margin: 20px 0;
+  font-size: 16px;
+  color: #888;
+  background-color: #f9f9f9;
+  border: 1px dashed #ddd;
+  border-radius: 10px;
+}

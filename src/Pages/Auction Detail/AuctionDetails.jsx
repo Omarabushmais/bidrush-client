@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import styles from "./AuctionDetails.module.css";
 
 import { getAuctionById } from "../../Api/auctions";
+import { getBidsByAuctionId, createBid, updateBid } from "../../Api/bids";
 import { API_URL } from "../../Api/axios";
 
 import placeholderImg from "../../assets/imagePlaceholder.png";
@@ -12,6 +13,7 @@ function AuctionDetails() {
     const {id} = useParams();
 
     const [auction, setAuction] = useState(null);
+    const [bids, setBids] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
@@ -21,14 +23,43 @@ function AuctionDetails() {
     const [showConfirm, setShowConfirm] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
+    const [isAuctionEnded, setIsAuctionEnded] = useState(false);
+
     const username = localStorage.getItem("username");
+    const isLoggedIn = Boolean(username);
+
+
+    const userId = localStorage.getItem("userId");
+    const isSeller = userId && auction && Number(auction.seller_id) === Number(userId);
+
+    useEffect(() => {
+        const fetchSeller = async () => {
+            if (auction?.seller_id) {
+                const user = await getUserById(auction.seller_id);
+                setSellerName(user.username);
+            }
+        };
+        fetchSeller();
+    }, [auction]);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const data = await getAuctionById(id);
-                setAuction(data);
+                const [auctionData, bidsData] = await Promise.all([
+                    getAuctionById(id),
+                    getBidsByAuctionId(id)
+                ]);
+
+                setAuction(auctionData);
+                setBids(bidsData);
                 setLoading(false);
+                setIsAuctionEnded(auctionData.status === "completed");
+
+                const startAmount = auctionData.current_price 
+                    ? Number(auctionData.current_price) 
+                    : Number(auctionData.starting_price);
+                    
+                setBidValue(startAmount + Number(auctionData.bid_increment));
             } catch (err) {
                 console.error(err);
                 setError("Failed to load auction details.");
@@ -37,6 +68,25 @@ function AuctionDetails() {
         };
         fetchData();
     }, [id]);
+
+    const [, setTick] = useState(0);
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (isAuctionEnded) return;
+
+            setTick((t) => t + 1);
+
+            if (auction?.end_time) {
+                const now = new Date();
+                const end = new Date(auction.end_time);
+                
+                if (now >= end) {
+                    setIsAuctionEnded(true);
+                }
+            }
+        }, 1000);
+        return () => clearInterval(interval);
+    }, [auction]);
 
     const nextSlide = () => {
         if (!auction?.images) return;
@@ -53,6 +103,7 @@ function AuctionDetails() {
     };
 
    const handleIncrement = (multiplier) => {
+        if (!auction) return;
         const jump = Number(auction.bid_increment); 
         const currentPrice = Number(auction.current_price || auction.starting_price);
         const increment = jump * multiplier;
@@ -70,19 +121,39 @@ function AuctionDetails() {
     }
 
     const handlePlaceBidClick = () => {
-        const currentPrice = auction.current_bid || auction.starting_price;
+        if (isSeller || !isLoggedIn || isAuctionEnded) return;
+
+        const currentPrice = auction.current_price || auction.starting_price;
         if (bidValue <= currentPrice) return;
         setShowConfirm(true);
     };
 
-    const handleConfirmBid = () => {
+    const handleConfirmBid = async () => {
         setIsSubmitting(true);
-        setTimeout(() => {
-            setIsSubmitting(false);
+        try {
+            const myExistingBid = bids.find(bid => bid.username === username);
+
+            if (myExistingBid) {
+                await updateBid(myExistingBid.id, { amount: bidValue });
+            } else {
+                await createBid({ auction_id: id, amount: bidValue });
+            }           
+
+            setAuction(prev => ({ ...prev, current_price: bidValue }));
+            const newBids = await getBidsByAuctionId(id);
+            setBids(newBids);
+
             setShowConfirm(false);
-            setBidValue(0);
-            alert("Bid placed! (Connect this to your backend)");
-        }, 1000);
+            alert("Bid placed successfully!");
+            
+            setBidValue(Number(bidValue) + Number(auction.bid_increment));
+
+        } catch (error) {
+            console.error(error);
+            alert("Failed to place/update bid");
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     const handleCancelBid = () => {
@@ -94,15 +165,6 @@ function AuctionDetails() {
             console.log("Images received from API:", auction.images);
         }
     }, [auction]);
-
-    const [, setTick] = useState(0);
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setTick((t) => t + 1);
-        }, 1000);
-        return () => clearInterval(interval);
-    }, []);
 
     const getTimeLeft = (endTime) => {
         if (!endTime) return "Loading...";
@@ -121,12 +183,41 @@ function AuctionDetails() {
         return `${days}d ${hours}h ${minutes}m ${seconds}s`;
     };
 
+    const getBidStatus = (bid) => {
+        if (bid.status === 'Winning' || bid.status === 'Win') {
+            return isAuctionEnded ? "Won" : "Winning";
+        }
+        return "Outbid";
+    };
+
+    const getButtonStyle = (bid) => {
+        if (bid.status === 'Winning' || bid.status === 'Win') {
+            return isAuctionEnded ? styles.statusWon : styles.statusWinning;
+        }
+        return styles.statusOutbid;
+    }
 
     if (loading) return <div className={styles.loading}>Loading...</div>;
+    if (error) return <div className={styles.error}>{error}</div>;
 
     const currentImgUrl = auction?.images?.[currentImageIndex]?.image_url 
         ? `${API_URL}${auction.images[currentImageIndex].image_url}` 
         : placeholderImg;
+
+    let buttonText = "Place Bid";
+    let isButtonDisabled = false;
+
+    if (!isLoggedIn) {
+        buttonText = "Please Login to Bid";
+        isButtonDisabled = true;
+    } else if (isSeller) {
+        buttonText = "You cannot bid on your own auction";
+        isButtonDisabled = true;
+    } else if (isAuctionEnded) {
+        buttonText = "Auction Ended";
+        isButtonDisabled = true;
+    }
+
 
     return (
         <div>
@@ -176,7 +267,7 @@ function AuctionDetails() {
                     <p className={styles.text}>{auction.description}</p>
 
                     <b className={styles.Theader}>Seller:</b>
-                    <p className={styles.text}>{username}</p>
+                    <p className={styles.text}>{auction.seller_name}</p>
                 </div>
 
                 <div className={styles.rightSec}>
@@ -202,34 +293,43 @@ function AuctionDetails() {
                         </div>
                         <button className={styles.clearBtn} onClick={handleClear} disabled={bidValue === 0}>Clear</button>
                         
-                        <button onClick={handlePlaceBidClick} className={styles.placeBidBtn}>Place Bid</button>
+                        <button onClick={handlePlaceBidClick} className={styles.placeBidBtn} disabled={isButtonDisabled}
+                                style={isButtonDisabled ? { opacity: 0.5, cursor: 'not-allowed' } : {}}>
+                                {buttonText}
+                        </button>
                     </div>
                     <div className={styles.historyCard}>
                         <h3 className={styles.historyTitle}>Bid History</h3>
 
-                        <table className={styles.historyTable}>
-                        <thead>
-                            <tr>
-                            <th>Bidder</th>
-                            <th>Amount</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            <tr>
-                            <td>User123</td>
-                            <td>$1000</td>
-                            </tr>
-                            <tr>
-                            <td>BidMaster</td>
-                            <td>$950</td>
-                            </tr>
-                            <tr>
-                            <td>AuctionFan</td>
-                            <td>$900</td>
-                            </tr>
-                        </tbody>
-                        </table>
+                        {bids.length === 0 ? (
+                            <p style={{textAlign: 'center', color: '#888'}}>No bids yet. Be the first!</p>
+                        ) : (
+                            <table className={styles.historyTable}>
+                                <thead>
+                                    <tr>
+                                        <th>Bidder</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {bids.map((bid, index) => (
+                                        <tr key={bid.id}>
+                                            <td>
+                                                {bid.username.charAt(0).toUpperCase() + bid.username.slice(1)}
+                                                {bid.username === username}
+                                            </td>
+                                            <td>${bid.amount}</td>
+                                            <td>
+                                                <span className={`${styles.statusBadge} ${getButtonStyle(bid)}`}>
+                                                    {getBidStatus(bid)}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        )}
                     </div>
                 </div>
             </div>
@@ -238,14 +338,10 @@ function AuctionDetails() {
                 <div className={styles.modalOverlay}>
                     <div className={styles.modal}>
                         <h2>Confirm Your Bid</h2>
-
                         <p className={styles.pPlacing}>You are about to place a bid of<strong> ${bidValue}</strong></p>
-
                         <p className={styles.modalSubText}>This action cannot be undone.</p>
-
                         <div className={styles.modalActions}>
                             <button className={styles.cancelBtn} onClick={handleCancelBid} disabled={isSubmitting}>Cancel</button>
-
                             <button className={styles.confirmBtn} onClick={handleConfirmBid} disabled={isSubmitting}>
                                 {isSubmitting ? "Placing..." : "Confirm Bid"}
                             </button>
@@ -253,7 +349,6 @@ function AuctionDetails() {
                     </div>
                 </div>
             )}
-
         </div>
     )
 }

@@ -1,9 +1,34 @@
 import React from 'react'
 import styles from "./AdminTables.module.css";
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
+function AuctionsTable({ auctions}) {
 
-function AuctionsTable({ auctions }) {
+  const navigate = useNavigate();
+
+  const handleView = (id) => {
+    navigate(`/auctions/${id}`);
+  };
+
+  const formatDate = (dateString) => {
+    if (!dateString) return "N/A";
+    return new Date(dateString).toLocaleString();
+  };
+
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this auction?");
+    
+    if (confirmDelete) {
+      try {
+        await deleteAuction(id);
+        window.location.reload(); 
+      } catch (err) {
+        console.error("Error deleting auction:", err);
+        alert("Failed to delete auction.");
+      }
+    }
+  };
+
   return (
     <div className={styles.wrapper}>
       <table className={styles.table}>
@@ -23,24 +48,26 @@ function AuctionsTable({ auctions }) {
           {auctions.map((auction) => (
             <tr key={auction.id}>
               <td className={styles.item}>{auction.title}</td>
-              <td>{auction.sellerName}</td>
+              
+              <td>{auction.username || `User ${auction.seller_id}`}</td> 
+              
               <td>{auction.category}</td>
-              <td>${auction.currentBid}</td>
+              
+              <td>${auction.current_price}</td>
+              
               <td>{auction.status}</td>
-              <td>{auction.endsIn}</td>
+              
+              <td>{formatDate(auction.end_time)}</td>
+              
               <td className={styles.actionCol}>
-                {auction.status === "Active" ? (
                   <div className={styles.actions}>
-                    <button className={styles.view}>View</button>
-                    <button className={styles.view}>End</button>
-                    <button className={styles.delete}>Delete</button>
+                    <button className={styles.view} onClick={() => handleView(auction.id)}>
+                      View
+                    </button>
+                    <button className={styles.delete} onClick={() => handleDelete(auction.id)}>
+                        Delete
+                    </button>
                   </div>
-                ) : (
-                    <div className={styles.actions}>
-                        <button className={styles.view}>View</button>
-                        <button className={styles.delete}>Delete</button>
-                    </div>
-                )}
               </td>
             </tr>
           ))}

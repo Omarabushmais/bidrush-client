@@ -3,7 +3,7 @@ import styles from "./MyAuctionsTable.module.css";
 import { Link } from 'react-router-dom';
 import { deleteAuction } from '../../Api/auctions';
 
-function MyAuctionsTable({ auctions }) {
+function MyAuctionsTable({ auctions, onDeleted }) {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [auctionToDelete, setAuctionToDelete] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -53,7 +53,7 @@ function MyAuctionsTable({ auctions }) {
     try {
       await deleteAuction(auctionToDelete);
 
-      window.location.reload();
+      onDeleted?.(auctionToDelete);
       closeDeleteModal();
 
     } catch (err) {

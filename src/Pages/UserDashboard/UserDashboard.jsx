@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import bid from "../mock Data/activebids.js";
 
 import bidsIcon from "../../assets/bids.png";
 import trophyIcon from "../../assets/aucWin.png";
@@ -14,27 +13,76 @@ import StatCard from '../../Components/Stats Card/StatCard.jsx';
 import { Link } from 'react-router-dom';
 
 import { getMyAuctions } from "../../Api/auctions.js";
-
-const activeBids = bid.filter(
-    (bids) => bids.status === "Active"
-    );
+import { getMyBids } from '../../Api/bids.js';
 
 function UserDashboard() {
+    const username = localStorage.getItem("username");
 
-    const [realMyAuctions, setRealMyAuctions] = useState([]);
+    const [myBids, setMyBids] = useState([]);
+    const [activeBids, setActiveBids] = useState([]);
+    const [wonAuctions, setWonAuctions] = useState([]);
+
+    const [myAuctions, setMyAuctions] = useState([]);
+
+    const capitalize = (str) =>
+        str ? str.charAt(0).toUpperCase() + str.slice(1) : "";
 
     useEffect(() => {
-    const fetchData = async () => {
+        const fetchBids = async () => {
+            try {
+                const bidsData = await getMyBids();
+                const processedBids = bidsData.map(bid => {
+                    const isAuctionEnded = bid.auction_status === 'completed' || new Date(bid.end_time) < new Date();
+                    
+                    let displayStatus = bid.status;
+
+                    if ((bid.status === 'Winning' || bid.status === 'Win') && isAuctionEnded) {
+                        displayStatus = 'Won';
+                    }
+
+                    return {
+                        ...bid,
+                        item: bid.title,               
+                        highestBid: bid.auction_current_price,
+                        yourBid: bid.amount,
+                        date: new Date(bid.created_at).toLocaleDateString(),
+                        status: displayStatus,
+                        auctionId: bid.auction_id
+                    };
+                });
+
+                setMyBids(processedBids);
+                setActiveBids(
+                    processedBids.filter(b => b.auction_status === "active")
+                );
+                setWonAuctions(
+                    processedBids.filter(b => b.status === "Won")
+                );
+
+            } catch (err) {
+                console.error("Failed to load bids", err);
+            }
+        };
+
+        fetchBids();
+    }, []);
+
+    useEffect(() => {
+    const fetchMyAuctions = async () => {
         try {
             const data = await getMyAuctions();
-            const activeOnly = data.filter(a => a.status === 'active' || a.status === 'Active');
-            setRealMyAuctions(activeOnly);
+
+            const activeAuctions = data.filter(
+                a => a.status?.toLowerCase() === "active"
+            );
+
+            setMyAuctions(activeAuctions);
         } catch (err) {
-            console.error("Failed to load auctions", err);
+            console.error("Failed to load my auctions", err);
         }
     };
-    fetchData();
-  }, []);
+    fetchMyAuctions();
+    }, []);
 
   
   return (
@@ -42,7 +90,7 @@ function UserDashboard() {
         <div className={styles.header}>
             <div>
                 <h1>Dashboard</h1>
-                <p>Welcome back, User123</p>
+                <p>Welcome back, {capitalize(username)}</p>
             </div>
 
             <Link to={"/my-auctions"} className={styles.viewBtn}>View My Auctions</Link>
@@ -50,27 +98,39 @@ function UserDashboard() {
         </div>
         <div className={styles.statsWrapper}>
             <div className={styles.stats}>
-                <StatCard icon={bidsIcon} title="Active Bids" value="3 Bids" />
-                <StatCard icon={trophyIcon} title="Auctions Won" value="1 Auction" />
-                <StatCard icon={usersIcon} title="Auctions Participated" value="7 Auctions" />
+                <StatCard icon={bidsIcon} title="Active Bids" value={`${activeBids.length} Bids`}/>
+                <StatCard icon={trophyIcon} title="Auctions Won" value={`${wonAuctions.length} Auction`}/>
+                <StatCard icon={usersIcon} title="Auctions Participated" value={`${new Set(myBids.map(b => b.auction_id)).size} Auctions`}/>
             </div>
         </div>
 
         <h2 className={styles.sectionTitle}>My Active Bids</h2>
         <div className={styles.myAuctionsActive}>
+            {activeBids.length === 0 ? (
+            <p className={styles.emptyText}>You have no active bids.</p>
+            ) : (
             <ActiveBids bids={activeBids} />
+            )}
         </div>
         
         <h2 className={styles.sectionTitle}>My Auctions</h2>
         <div className={styles.myAuctionsActive}>
-            <MyAuctionsTable auctions={realMyAuctions} />
+        {myAuctions.length === 0 ? (
+            <p className={styles.emptyText}>You have no auctions.</p>
+        ) : (
+            <MyAuctionsTable auctions={myAuctions} />
+        )}
         </div>
 
         <h2 className={styles.sectionTitle}>Auctions Won</h2>
         <div className={styles.wonGrid}>
-            {bid.filter(a => a.status === "Won").map(a => (
-                <AuctionWonCard key={a.id} auction={a} />
-            ))}
+        {wonAuctions.length === 0 ? (
+            <p className={styles.emptyText}>You haven’t won any auctions yet.</p>
+        ) : (
+            wonAuctions.map(bid => (
+                <AuctionWonCard key={bid.id} auction={bid} />
+            ))
+        )}
         </div>
 
     </div>
