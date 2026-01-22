@@ -1,6 +1,7 @@
 import './App.css'
 import { Route, Routes } from 'react-router-dom'
 import MainLayout from './Layout/MainLayout'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Home from './Pages/Home/Home'
 import Auctions from './Pages/Auctions/Auctions'
