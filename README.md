@@ -67,5 +67,9 @@ cd bidrush-client
 # 2. Install dependencies
 npm install
 
-# 3. Run the development server
+# 3. Configure Environment Variables
+# Create a .env file in the root directory and add:
+VITE_SERVER_URL= SERVER URL
+
+# 4. Run the development server
 npm run dev
