@@ -1,16 +1,71 @@
-# React + Vite
+# 🔨 BidRush Client (React)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the **frontend** for **BidRush**, a full-stack auction web application built with **React 19 + Vite**. [cite_start]It enables users to participate in online auctions safely and efficiently[cite: 69].
 
-Currently, two official plugins are available:
+## 🎯 Description
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+BidRush provides a secure platform for real-time online bidding. [cite_start]The application connects to an Express.js server and PostgreSQL database[cite: 83].
 
-## React Compiler
+The app supports two main user roles:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- 👤 **Registered Users**:
+  - [cite_start]Browse and bid on active auctions[cite: 70].
+  - [cite_start]Create and manage their own auction listings[cite: 77].
+  - [cite_start]Track activity via a personal dashboard (active bids, wins, history)[cite: 76].
+- 🛠️ **Administrators**:
+  - [cite_start]View platform analytics (total users, bids, active auctions)[cite: 80].
+  - [cite_start]Manage users (view, suspend accounts)[cite: 81].
+  - [cite_start]Moderate content (remove illegal or completed auctions)[cite: 81].
 
-## Expanding the ESLint configuration
+## 🧑‍💻 User Requirements
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1. **Authentication**: Secure Login and Registration for all users[cite: 86].
+2. **Regular Users**:
+   - [cite_start]**Browse**: View active auctions with real-time updates[cite: 90].
+   - [cite_start]**Bid**: Place bids on items; the system ensures only valid higher bids are accepted[cite: 96].
+   - [cite_start]**Manage**: Create new auctions, edit existing ones, or delete them[cite: 101].
+   - [cite_start]**Profile**: Update personal information and password[cite: 104].
+3. **Admin Users**:
+   - [cite_start]Access a specialized dashboard to oversee platform activity[cite: 80].
+   - [cite_start]Maintain platform security by suspending violating users[cite: 81].
+
+## 📂 Project Structure
+
+The project follows a modular structure for better maintainability:
+
+```text
+BidRush_Client/
+├── public/
+├── src/
+│   ├── Api/          # API integration logic (Axios setup)
+│   ├── assets/       # Static images and global assets
+│   ├── Components/   # Reusable UI components
+│   ├── Layout/       # Layout wrappers (Navbar, Footer, etc.)
+│   ├── Pages/        # Main application pages (Login, Dashboard, Auction Details)
+│   ├── App.css       # Global styles
+│   ├── App.jsx       # Main App component
+│   └── main.jsx      # Entry point
+├── index.html
+├── package.json
+└── vite.config.js
+```
+
+## 🛠️ Technologies
+
+- **Core**: React 19 + Vite
+- **Routing**: React Router DOM
+- **HTTP Client**: Axios
+- **Auth**: JWT Decode
+- **Linting**: ESLint
+
+## 🚀 Getting Started
+
+```bash
+# 1. Go to the folder
+cd bidrush-client
+
+# 2. Install dependencies
+npm install
+
+# 3. Run the development server
+npm run dev

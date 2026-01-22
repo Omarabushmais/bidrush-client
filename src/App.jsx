@@ -1,6 +1,7 @@
 import './App.css'
 import { Route, Routes } from 'react-router-dom'
 import MainLayout from './Layout/MainLayout'
+
 import Home from './Pages/Home/Home'
 import Auctions from './Pages/Auctions/Auctions'
 import About from './Pages/About/About'
@@ -19,6 +20,7 @@ import Profile from './Pages/Profile/Profile'
 import AdminDashboard from './Pages/Admin/AdminDashboard'
 import ManageUsers from './Pages/Admin/ManageUsers'
 import ManageAuctions from './Pages/Admin/ManageAuctions'
+
 import ProtectedRoute from './Components/ProtectedRoutes'
 
 
